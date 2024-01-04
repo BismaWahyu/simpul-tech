@@ -9,12 +9,52 @@
       <!-- top bar goes here -->
     </v-app-bar>
 
-    <v-main class="dark-theme-1 h-screen">
-      
-      <v-btn color="primary" width="15" class="ma-4 rounded-circle fab" style="width: 56px; height: 56px;">
-        <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img>
-      </v-btn>
+    <v-main class="dark-theme-1">
+      <v-row class="fab">
+        <v-col>
+          <v-expand-x-transition>
+            <v-card
+              flat
+              v-show="expand"
+              class="flex justify-between items-center mt-1/2 bg-transparent"
+              width="200"
+              height="75"
+            >
+              <!-- Expanded FAB Button 1 -->
+              <v-btn 
+                color="grey-lighten-3"
+                class="ma-4 rounded-circle" 
+                style="width: 56px; height: 56px;"
+              >
+                <!-- <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img> -->
+                here
+              </v-btn>
 
+              <!-- Expanded FAB Button 2 -->
+              <v-btn 
+                color="grey-lighten-3"
+                class="ma-4 rounded-circle" 
+                style="width: 56px; height: 56px;"
+              >
+                <!-- <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img> -->
+                here2
+              </v-btn>
+            </v-card>
+          </v-expand-x-transition>
+        </v-col>
+        <v-col>
+          <v-btn 
+            color="primary" 
+            width="15" 
+            class="ma-4 rounded-circle" 
+            style="width: 56px; height: 56px;"
+            @click="expand = !expand"
+          >
+            <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img>
+          </v-btn>
+  
+        </v-col>
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -23,7 +63,7 @@
   export default{
     data() {
       return {
-        drawer: false
+        expand: false,
       }
     },
     head() {
@@ -47,5 +87,9 @@
     position: absolute;
     bottom: 0;
     right: 0;
+  }
+  .fab-items{
+    position: absolute;
+    bottom: 0;
   }
 </style>
