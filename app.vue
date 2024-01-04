@@ -26,8 +26,7 @@
                 class="ma-4 rounded-circle" 
                 style="width: 56px; height: 56px;"
               >
-                <!-- <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img> -->
-                here
+                <v-img src="/assets/task-icon.png" width="25" height="25"></v-img>
               </v-btn>
 
               <!-- Expanded FAB Button 2 -->
@@ -36,8 +35,7 @@
                 class="ma-4 rounded-circle" 
                 style="width: 56px; height: 56px;"
               >
-                <!-- <v-img src="/assets/fab-icon.png" width="45" height="45"></v-img> -->
-                here2
+                <v-img src="/assets/inbox-icon.png" width="25" height="25"></v-img>
               </v-btn>
             </v-card>
           </v-expand-x-transition>
