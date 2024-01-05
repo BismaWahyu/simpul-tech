@@ -11,7 +11,10 @@
 
     <v-main class="dark-theme-1">
       <v-row class="fab">
-        <v-col>
+        <v-col
+          class="fab-items"
+          :class="{ 'move-expand': isInbox }"
+        >
           <v-expand-x-transition>
             <v-card
               flat
@@ -22,29 +25,35 @@
             >
               <!-- Expanded FAB Button 1 -->
               <v-btn 
-                color="grey-lighten-3"
+                :color="taskBtn.bg"
                 class="ma-4 rounded-circle" 
                 style="width: 56px; height: 56px;"
               >
-                <v-img src="/assets/task-icon.png" width="25" height="25"></v-img>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+                <path :fill="taskBtn.icon" fill-rule="evenodd" clip-rule="evenodd" d="M4.11114 4.66669H24.1111C25.3334 4.66669 26.3334 5.66669 26.3334 6.88891V21.3334C26.3334 22.5556 25.3334 23.5556 24.1111 23.5556H4.11114C2.88892 23.5556 1.88892 22.5556 1.88892 21.3334V6.88891C1.88892 5.66669 2.88892 4.66669 4.11114 4.66669ZM4.11114 6.88891V21.3334H13V6.88891H4.11114ZM24.1111 21.3334H15.2222V6.88891H24.1111V21.3334ZM23 10.7778H16.3334V12.4445H23V10.7778ZM16.3334 13.5556H23V15.2222H16.3334V13.5556ZM23 16.3334H16.3334V18H23V16.3334Z" fill="#F8B76B"/>
+              </svg>
               </v-btn>
 
               <!-- Expanded FAB Button 2 -->
               <v-btn 
-                color="grey-lighten-3"
+                :color="inboxBtn.bg"
                 class="ma-4 rounded-circle" 
+                :class="{ 'inbox-selected': selectedIdx === 2 }"
                 style="width: 56px; height: 56px;"
+                @click="moveItem(2)"
               >
-                <v-img src="/assets/inbox-icon.png" width="25" height="25"></v-img>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31">
+                <path :fill="inboxBtn.icon" fill-rule="evenodd" clip-rule="evenodd" d="M21.0371 2.92615H4.66671C3.97411 2.92615 3.40745 3.49281 3.40745 4.18541V21.815L8.44448 16.778H21.0371C21.7297 16.778 22.2963 16.2113 22.2963 15.5187V4.18541C22.2963 3.49281 21.7297 2.92615 21.0371 2.92615ZM19.7778 5.44458V14.2594H7.39931L6.65635 15.0024L5.92598 15.7327V5.44458H19.7778ZM24.8149 7.96321H27.3334C28.026 7.96321 28.5926 8.52987 28.5926 9.22247V28.1114L23.5556 23.0743H9.70374C9.01115 23.0743 8.44448 22.5077 8.44448 21.8151V19.2965H24.8149V7.96321Z"/>
+              </svg>
               </v-btn>
             </v-card>
           </v-expand-x-transition>
         </v-col>
         <v-col>
           <v-btn 
-            color="primary" 
+            :color="fabBtn" 
             width="15" 
-            class="ma-4 rounded-circle" 
+            class="ma-4 rounded-circle"
             style="width: 56px; height: 56px;"
             @click="expand = !expand"
           >
@@ -62,6 +71,29 @@
     data() {
       return {
         expand: false,
+        fabBtn: "primary",
+        inboxBtn: {
+          bg: "grey-lighten-3",
+          icon: "#8885FF"
+        },
+        taskBtn: {
+          bg: "grey-lighten-3",
+          icon: "#F8B76B"
+        },
+        isInbox: false,
+        selectedIdx: null,
+      }
+    },
+    methods: {
+      moveItem(idx){
+        this.inboxBtn = {
+          bg: "#8885FF",
+          icon: 'white'
+        }
+        // this.inboxBtn = this.inboxBtn === "grey-lighten-3" ? "#8785FF" : "grey-lighten-3"
+        this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
+        this.isInbox = true;
+        this.selectedIdx = idx;
       }
     },
     head() {
@@ -87,7 +119,13 @@
     right: 0;
   }
   .fab-items{
-    position: absolute;
-    bottom: 0;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+  .move-expand{
+    transform: translateX(120px);
+  }
+  .inbox-selected{
+    transform: translateX(20px)
   }
 </style>
