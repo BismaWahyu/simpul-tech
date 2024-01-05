@@ -10,6 +10,34 @@
     </v-app-bar>
 
     <v-main class="dark-theme-1">
+      <transition name="scale-transition">
+        <v-card
+          v-if="showCardList"
+          class="inbox-container"
+          min-width="300"
+          max-width="737"
+          width="734"
+          min-height="300"
+          height="737"
+        >
+          <div class="mt-5 d-flex align-center justify-center">
+            <div style="width: 666px;">
+              <v-text-field label="Search" variant="outlined"  append-inner-icon="mdi-magnify"></v-text-field>
+            </div>
+          </div>
+          <div class="d-flex align-center justify-center" style="height: 55vh;">
+            <div v-show="isLoading">
+              <v-img 
+                src="/assets/loading.gif" 
+                width="50" 
+                height="50" 
+                class="ml-4"
+              />
+              <h3 class="mt-2">Loading Data</h3>
+            </div>
+          </div>
+        </v-card>
+      </transition>
       <v-row class="fab">
         <v-col
           class="fab-items"
@@ -82,18 +110,33 @@
         },
         isInbox: false,
         selectedIdx: null,
+        showCardList: false,
+        isLoading: false
       }
     },
     methods: {
       moveItem(idx){
-        this.inboxBtn = {
-          bg: "#8885FF",
-          icon: 'white'
+        if(this.selectedIdx === null){
+          this.inboxBtn = {
+            bg: "#8885FF",
+            icon: 'white'
+          }
+          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
+          this.isInbox = true;
+          this.isLoading = true
+          this.selectedIdx = idx;
+          this.showCardList = true
+        }else{
+          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
+          this.selectedIdx = null;
+          this.showCardList = false
+          this.isInbox = false
+          this.isInbox = false
+          this.inboxBtn = {
+            bg: "grey-lighten-3",
+            icon: "#8885FF"
+          }
         }
-        // this.inboxBtn = this.inboxBtn === "grey-lighten-3" ? "#8785FF" : "grey-lighten-3"
-        this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
-        this.isInbox = true;
-        this.selectedIdx = idx;
       }
     },
     head() {
@@ -127,5 +170,10 @@
   }
   .inbox-selected{
     transform: translateX(20px)
+  }
+  .inbox-container{
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
   }
 </style>
