@@ -181,11 +181,17 @@
           this.selectedIdx = idx
           this.isMove = true
           this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
+          this.isLoading = true
           if(idx === 2){
             this.inboxBtn = {
               bg: "#8885FF",
               icon: 'white'
             }
+            this.isInbox = true
+            this.showCardList = true
+            setTimeout(() => {
+              this.isLoading = false
+            }, 2000)
           }
           if(idx === 1){
             this.taskBtn = {
@@ -198,6 +204,8 @@
             this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
             this.isMove = false
             this.selectedIdx = null
+            this.showCardList = false
+            this.isInbox = false
             this.inboxBtn = {
               bg: "grey-lighten-3",
               icon: "#8885FF"
@@ -209,16 +217,32 @@
           }else{
             this.selectedIdx = idx
             if(idx === 2){
+              this.taskBtn = {
+                bg: "grey-lighten-3",
+                icon: "#F8B76B"
+              }
               this.inboxBtn = {
                 bg: "#8885FF",
                 icon: 'white'
               }
+              this.isLoading = true
+              this.isInbox = true
+              this.showCardList = true
+              setTimeout(() => {
+                this.isLoading = false
+              }, 2000)
             }
             if(idx === 1){
               this.taskBtn = {
                 bg: "#F8B76B",
                 icon: 'white'
               }
+              this.inboxBtn = {
+                bg: "grey-lighten-3",
+                icon: "#8885FF"
+              }
+              this.isInbox = false
+              this.showCardList = false
             }
           }
         }
