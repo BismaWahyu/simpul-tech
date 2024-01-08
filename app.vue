@@ -95,11 +95,22 @@
                 <hr>
               </template>
             </v-virtual-scroll>
-            <div v-if="!isLoading && isChatOpen">
-              <div class="msg-field">
-                <v-text-field label="Type a new message" variant="outlined" class="type-field" />
-                <v-btn class="send-button" color="primary">Send</v-btn>
+          </div>
+          <div v-if="!isLoading && isChatOpen" class="chatroom-container">
+            <div class="msg-container">
+              <div 
+                v-for="(msg, idx) in convertation" 
+                :key="idx"
+                :class="{ 'other-msg-item': msg.person !== 'You', 'my-msg-item': msg.person === 'You' }"
+              >
+                <div class="msg-content">{{ msg.msg }}</div>
+                <div class="msg-time">{{ msg.time }}</div>
               </div>
+            </div>
+
+            <div class="msg-field">
+              <v-text-field label="Type a new message" variant="outlined" class="type-field" />
+              <v-btn class="send-button" color="primary">Send</v-btn>
             </div>
           </div>
 
@@ -398,9 +409,36 @@
     color:#2F80ED;
     font-weight: bold;
     font-size: 16px;
+    flex: 1;
+    overflow-y: auto;
   }
   .chatroom-subtitle{
     font-size: 10px;
+  }
+  .msg-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: -400px;
+  }
+  .other-msg-item{
+    background-color: #FCEED3;
+    min-width: 250px; 
+    max-width: 500px;
+    width: fit-content;
+    border-radius: 4%;
+    padding: 15px;
+  }
+  .my-msg-item{
+    background-color: #EEDCFF;
+    min-width: 250px; 
+    max-width: 380px;
+    width: fit-content;
+    border-radius: 4%;
+    padding: 15px;
+    margin-bottom: 20px;
+    align-self: flex-end;
   }
   .msg-field{
     position: absolute;
@@ -417,5 +455,12 @@
   .send-button{
     margin-left: 10px;
     height: 55px;
+  }
+  .msg-content{
+    font-size: 14px;
+  }
+  .msg-time{
+    font-size: 12px;
+    margin-top:15px;
   }
 </style>
