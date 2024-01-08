@@ -20,10 +20,35 @@
           min-height="300"
           height="737"
         >
-          <div class="mt-5 d-flex align-center justify-center">
-            <div style="width: 666px;">
-              <v-text-field label="Search" variant="outlined"  append-inner-icon="mdi-magnify"></v-text-field>
+          <div class="mt-5">
+            <div v-if="!isChatOpen" class="d-flex align-center justify-center">
+              <div style="width: 666px;">
+                <v-text-field label="Search" variant="outlined"  append-inner-icon="mdi-magnify"></v-text-field>
+              </div>
             </div>
+            <div v-if="isChatOpen" class="d-flex items-center w-full">
+              <div 
+                class="text-center" 
+                style="width: 15%; cursor: pointer;"
+                @click="handleChatClose()"  
+              >
+                <v-icon>mdi-arrow-left</v-icon>
+              </div>
+
+              <div style="width:70%; margin-top: -10px;">
+                <h2 class="chatroom-title">{{ chatRoom.title }}</h2>
+                <span class="chatroom-subtitle">3 Participants</span>
+              </div>
+
+              <div 
+                class="text-center" 
+                style="width:15%; cursor: pointer;"
+                @click="handleCloseBox()"
+              >
+                <v-icon>mdi-close</v-icon>
+              </div>
+            </div>
+            <hr v-if="isChatOpen" class="mt-3">
           </div>
 
           <div class="d-flex align-center justify-center" style="height: 55vh;">
@@ -40,13 +65,13 @@
               :items="items"
               height="600"
               item-height="48"
-              v-if="!isLoading && isInbox"
+              v-if="!isLoading && isInbox && !isChatOpen"
             >
               <template v-slot:default="{ item }">
                 <v-list-item>
                   <template v-slot:prepend>
                     <div class="position-relative ml-5 mr-3">
-                      <v-icon class="dark-avatar" size="44" style="position: absolute; top: 0; left: -20px;">
+                      <v-icon v-if="item.participants > 1" class="dark-avatar" size="44" style="position: absolute; top: 0; left: -20px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                           <path fill="#0000008A" fill-rule="evenodd" clip-rule="evenodd" d="M9 3C7.3425 3 6 4.3425 6 6C6 7.6575 7.3425 9 9 9C10.6575 9 12 7.6575 12 6C12 4.3425 10.6575 3 9 3ZM10.5 6C10.5 5.175 9.825 4.5 9 4.5C8.175 4.5 7.5 5.175 7.5 6C7.5 6.825 8.175 7.5 9 7.5C9.825 7.5 10.5 6.825 10.5 6ZM13.5 13.5C13.35 12.9675 11.025 12 9 12C6.9825 12 4.6725 12.96 4.5 13.5H13.5ZM3 13.5C3 11.505 6.9975 10.5 9 10.5C11.0025 10.5 15 11.505 15 13.5V15H3V13.5Z"/>
                         </svg>
@@ -59,7 +84,7 @@
                     </div>
                   </template>
 
-                  <v-list-item-title class="item-title">{{ item.title }}</v-list-item-title>
+                  <v-list-item-title class="item-title" @click="handleChatOpen(item.id)">{{ item.title }}</v-list-item-title>
                   <div class="item-person">{{ item.person }}</div>
                   <div class="item-subject">{{ item.subject }}</div>
 
@@ -67,9 +92,15 @@
                     <div class="item-date">{{ item.date }}</div>
                   </template>
                 </v-list-item>
+                <hr>
               </template>
             </v-virtual-scroll>
-
+            <div v-if="!isLoading && isChatOpen">
+              <div class="msg-field">
+                <v-text-field label="Type a new message" variant="outlined" class="type-field" />
+                <v-btn class="send-button" color="primary">Send</v-btn>
+              </div>
+            </div>
           </div>
 
           
@@ -156,24 +187,59 @@
         isLoading: true,
         items: [
           {
+            id: 0,
             title:"109220-Naturalization",
             person: "Cameron Philips",
             subject: "Please check this out!",
-            date: "01/01/2021 19:10"
+            date: "01/01/2021 19:10",
+            participants: 3
           },
           {
+            id: 1,
             title:"Jeannette Moraima Guaman Chamba (Hutto I-589) [Hutto Follow Up -Brief Service]",
             person: "Ellen",
             subject: "Hey, please read.",
-            date: "02/06/2021 10:45"
+            date: "02/06/2021 10:45",
+            participants: 5
           },
           {
+            id:2,
             title:"8405-Diana SALAZAR MUNGUIA",
             person: "Cameron Philips",
             subject: "I understand your initial concern and thats very valid, Elizabeth, But you",
-            date: "01/06/2021 12:19"
+            date: "01/06/2021 12:19",
+            participants: 2
+          },
+          {
+            id:3,
+            title:"FastVisa Support",
+            person: "",
+            subject: "Hey there! Welcome to your inbox.",
+            date: "01/06/2021 12:19",
+            participants: 1
           }
         ],
+        chatRoom: {},
+        convertation: [
+          {
+            person: "Mary Hilda",
+            msg: "Sure thing, Claren.",
+            date: "09/06/2021",
+            time: "19:32"
+          },
+          {
+            person: "You", 
+            msg: "Please contact Mary for question regarding the case bcs she will be managing your forms from now on! Thanks Mary.",
+            date: "09/06/2021",
+            time: "19:32"
+          },
+          {
+            person: "Mary Hilda",
+            msg: "Hello Obaidullah, i will your case advisor for case #029290. I have assigned some homework for you to fill. Please keep up with the due dates. Should you have any questions, you can message me anytime. Thanks",
+            date: "09/06/2021",
+            time: "19:32"
+          },
+        ]
       }
     },
     methods: {
@@ -207,6 +273,7 @@
             this.selectedIdx = null
             this.showCardList = false
             this.isInbox = false
+            this.isChatOpen = false
             this.inboxBtn = {
               bg: "grey-lighten-3",
               icon: "#8885FF"
@@ -243,6 +310,7 @@
                 icon: "#8885FF"
               }
               this.isInbox = false
+              this.isChatOpen = false
               this.showCardList = false
             }
           }
@@ -250,7 +318,14 @@
       },
       handleChatOpen(idx){
         this.isChatOpen = true
-      }
+        this.chatRoom = this.items[idx]
+      },
+      handleChatClose(){
+        this.isChatOpen = false
+      },
+      handleCloseBox(){
+        this.isChatOpen = false
+      },
     },
     head() {
       return {
@@ -318,5 +393,29 @@
   }
   .item-date{
     font-size: 11px;
+  }
+  .chatroom-title{
+    color:#2F80ED;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .chatroom-subtitle{
+    font-size: 10px;
+  }
+  .msg-field{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 15px;
+    width: 700px; 
+    display: flex; 
+    align-items: stretch;
+  }
+  .type-field{
+    width: 100%;
+  }
+  .send-button{
+    margin-left: 10px;
+    height: 55px;
   }
 </style>
