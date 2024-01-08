@@ -149,6 +149,7 @@
         },
         isMove: false,
         isInbox: false,
+        isChatOpen: false,
         isTask: false,
         selectedIdx: null,
         showCardList: false,
@@ -247,54 +248,9 @@
           }
         }
       },
-      moveItem(idx){
-        if(this.selectedIdx === null && idx === 2){
-          this.isMove = true
-          this.inboxBtn = {
-            bg: "#8885FF",
-            icon: 'white'
-          }
-          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
-          this.selectedIdx = idx;
-          this.showCardList = true
-          this.isInbox = true
-          setTimeout(() => {
-            this.isLoading = false
-          }, 2000)
-        }else if(this.selectedIdx === null && idx === 1){
-          this.isMove = true
-          this.taskBtn = {
-            bg: "#F8B76B",
-            icon: 'white'
-          }
-          this.isTask = true
-          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
-          this.selectedIdx = idx;
-          setTimeout(() => {
-            this.isLoading = false
-          }, 2000)
-        }else if(idx === 2){
-          this.isMove = false
-          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
-          this.selectedIdx = null;
-          this.showCardList = false
-          this.isInbox = false
-          this.inboxBtn = {
-            bg: "grey-lighten-3",
-            icon: "#8885FF"
-          }
-        }else if(idx === 1){
-          this.isMove = false
-          this.fabBtn = this.fabBtn === "primary" ? "#4F4F4F" : "primary"
-          this.selectedIdx = null;
-          this.showCardList = false
-          this.isTask = false
-          this.taskBtn = {
-            bg: "grey-lighten-3",
-            icon: "#F8B76B"
-          }
-        }
-      },
+      handleChatOpen(idx){
+        this.isChatOpen = true
+      }
     },
     head() {
       return {
@@ -351,6 +307,7 @@
     color:#2F80ED;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
   }
   .item-person{
     font-size: 14px;
