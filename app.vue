@@ -21,7 +21,7 @@
           height="737"
         >
           <div class="mt-5">
-            <div v-if="!isChatOpen" class="d-flex align-center justify-center">
+            <div v-if="!isChatOpen && isInbox" class="d-flex align-center justify-center">
               <div style="width: 666px;">
                 <v-text-field label="Search" variant="outlined"  append-inner-icon="mdi-magnify"></v-text-field>
               </div>
@@ -103,8 +103,11 @@
                 :key="idx"
                 :class="{ 'other-msg-item': msg.person !== 'You', 'my-msg-item': msg.person === 'You' }"
               >
-                <div class="msg-content">{{ msg.msg }}</div>
-                <div class="msg-time">{{ msg.time }}</div>
+                <div style="font-weight: bold;">{{ msg.person }}</div>
+                <div>
+                  <div class="msg-content">{{ msg.msg }}</div>
+                  <div class="msg-time">{{ msg.time }}</div>
+                </div>
               </div>
             </div>
 
@@ -322,7 +325,7 @@
               }
               this.isInbox = false
               this.isChatOpen = false
-              this.showCardList = false
+              this.isLoading = true
             }
           }
         }
@@ -420,7 +423,7 @@
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
-    margin-top: -400px;
+    margin-top: -500px;
   }
   .other-msg-item{
     background-color: #FCEED3;
