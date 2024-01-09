@@ -26,6 +26,19 @@
                 <v-text-field label="Search" variant="outlined"  append-inner-icon="mdi-magnify"></v-text-field>
               </div>
             </div>
+            <div v-if="!isTaskOpen && isTask" class="d-flex align-center justify-center">
+              <div style="width: 450px; height: 50px;">
+                <v-select
+                  label="My Task"
+                  :items="['Personal Errands', 'Urgent To-Do']"
+                  variant="outlined"
+                  style="height: 25px;"
+                ></v-select>
+              </div>
+              <div class="ml-5">
+                <v-btn color="primary" style="height: 50px;">New Task</v-btn>
+              </div>
+            </div>
             <div v-if="isChatOpen" class="d-flex items-center w-full">
               <div 
                 class="text-center" 
@@ -196,6 +209,7 @@
         isInbox: false,
         isChatOpen: false,
         isTask: false,
+        isTaskOpen: false,
         selectedIdx: null,
         showCardList: false,
         isLoading: true,
@@ -279,6 +293,11 @@
               bg: "#F8B76B",
               icon: 'white'
             }
+            this.isTask = true
+            this.showCardList = true
+            setTimeout(() => {
+              this.isLoading = false
+            }, 2000)
           }
         }else{
           if(this.selectedIdx === idx){
@@ -326,6 +345,10 @@
               this.isInbox = false
               this.isChatOpen = false
               this.isLoading = true
+              this.isTask = true
+              setTimeout(() => {
+                this.isLoading = false
+              }, 2000)
             }
           }
         }
